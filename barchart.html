@@ -1,17 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Barchart</title>
-		<style></style>
-	</head>
-	<body>
-		<h2> 2017-18 League-Wide Standings in the National Hockey League</h2>
-		<h4>   </h4>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercise Portfolio</title>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
 
-		<script src="js/d3.min.js"></script>
+  <body>
 
-<script>
+    <header>
+      <!-- ADD YOUR NAME -->
+      <h1>Carolina Diaz: Exercise Portfolio</h1>
+    </header>
+
+    <div id="content">
+
+      <nav>
+        <ul>
+          <li><a href="index.html">Return to Main Page</a></li>
+        </ul>
+      </nav>
+
+      <main>
+
+        <h2>2017-18 league-wide standings in the National Hockey League</h2>
+
+        <p></p>
+
+        Represents number of wins per team
+
+      </main>
+    </div>
+
+    <script src="js/d3.min.js"></script>
+    <script>
 
 var w = 700;
 var h = 200;
@@ -31,8 +53,8 @@ var h = 200;
                       .attr("x", function(d, i) { return (i * 22);
                       })
                       .attr("y", function(d) {
-						 return h - d.wins;
-					 })
+             return h - d.wins;
+           })
                       .attr("width", 16)
                       .attr("height", function(d) {return d.wins;})
 
@@ -45,12 +67,12 @@ var h = 200;
                   .append("text")
                   .attr("class", "wins")
                   .text(function(d) {return d.wins })
-					        .style("font-size", "8px");
+                  .style("font-size", "8px");
                   winslabels.attr("x", function(d, i) {
-                  					  return (i * 22) + 4 ;
-                    				})
-                  				  .attr("y", function(d) {
-                  						return (h - d.wins) + 10 ;
+                              return (i * 22) + 4 ;
+                            })
+                            .attr("y", function(d) {
+                              return (h - d.wins) + 10 ;
                                 });
 
   var namelabels = svg.selectAll("text.name")
@@ -76,5 +98,5 @@ var h = 200;
 
 </script>
 
-	</body>
+  </body>
 </html>
