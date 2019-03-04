@@ -38,7 +38,7 @@
     <script>
 
 
-    d3.csv(("/data/nfl-rushing.csv"), function(d) {
+    d3.csv("data/nfl-rushing.csv", function(d) {
     	//convert string into #
       return {
         td : +d.TD,
