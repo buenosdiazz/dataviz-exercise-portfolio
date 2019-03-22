@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercise Portfolio</title>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+
+    <header>
+      <!-- ADD YOUR NAME -->
+      <h1>Carolina Diaz: Exercise Portfolio</h1>
+    </header>
+
+    <div id="content">
+
+      <nav>
+        <ul>
+          <li><a href="index.html">Return to Main Page</a></li>
+        </ul>
+      </nav>
+
+      <main>
+
+        <h2>Linechart</h2>
+
+        <p><!-- INFORMATION ABOUT YOUR VISUALIZATION: What is this about? --></p>
+
+        <!-- ADD YOUR VISUALIZATION HERE -->
+
+      </main>
+    </div>
+
+    <script src="js/d3.min.js"></script>
+    <script>
+
+    d3.csv("data/AMZN.csv").then(function(data) {
+      console.log(data);
+      //variables for height, width, and padding
+
+
+      var w = 600;
+      var	h = 400;
+      var p = 60;
+
+
+
+      //create svg
+        var svg = d3.select("main")
+                    .append("svg")
+                    .attr("width",w + p)
+                   .attr("height",h + p);
+
+// convert to date obejct
+                var timeParser = d3.timeParse("%Y-%m-%d");
+               data.forEach(function(d) {
+             d.Date = timeParser(d.Date);
+             d.Close = +d.Close;
+             //console.log(d.Close);
+              });
+
+//x axis
+
+xScale = d3.scaleTime()
+  .domain([d3.min(data, function(d) {
+    return d.Date;
+  }), d3.max(data, function(d) {
+    return d.Date
+  })])
+  .range([p, w - p]);
+
+  var xAxis = d3.axisBottom()
+             .scale(xScale);
+            svg.append("g")
+               .attr("class", "x-axis")
+               .attr("transform", "translate(0," + (h - p) + ")")
+               .call(xAxis);
+
+//y axis
+
+yScale = d3.scaleLinear()
+    .domain([d3.min(data, function(d) {
+      return d.Close;
+    }), d3.max(data, function(d) {
+      return d.Close
+    })])
+    	.range([ h - p , p ]);
+
+    var yAxis = d3.axisLeft()
+                  .scale(yScale);
+                svg.append("g")
+                 .attr("class", "y-axis")
+                 .attr("transform", "translate(" + p + ",0)")
+                   .call(yAxis);
+
+//draw line
+    var line = d3.line()
+        .x(function(d){ return xScale(d.Date) ; })
+        .y(function(d){ return yScale(d.Close) ; });
+
+// append line
+        svg.append("path")
+          .datum(data)
+          .attr("class","line")
+          .attr("d",line);
+
+          // - May 1997: Initial public offering (IPO)
+          // - January 2004: Amazon reports first profitable year.
+          // - August 2017: Amazon acquires Whole Foods Market
+          // - September 2018: Amazon becomes a trillion-dollar company
+//January 2004
+svg.selectAll("dot.one")
+     .data(data)
+   .enter()
+   .append("circle")
+     .filter(function(d) { return d.Close == 50.400002 ;
+     })
+     .style("fill", "dimgrey")
+     .attr("class", "one")                       // <== and this one
+     .attr("r", 3)
+     .attr("cx", function(d) { return xScale(d.Date) ; })
+     .attr("cy", function(d) { return yScale(d.Close); });
+
+     var janlabel = svg.selectAll("text.jan")
+                         .data(data)
+                         .enter()
+                         .append("text")
+                         .filter(function(d) { return d.Close == 50.400002  ;
+                         })
+                         .attr("class", "jan")
+                         .text("Amazon reports first profitable year")
+                         .style("font-size", "8px");
+           janlabel.attr("x", function(d) { return xScale(d.Date) ; })
+                           .attr("y", function(d) { return yScale(d.Close) - 10; });
+//May 1997
+     svg.selectAll("dot.two")
+          .data(data)
+        .enter().append("circle")
+          .filter(function(d) { return d.Close == 1.5 ;
+          })
+          .style("fill", "dimgrey")
+          .attr("class", "two")                       // <== and this one
+          .attr("r", 3)
+          .attr("cx", function(d) { return xScale(d.Date)  ; })
+          .attr("cy", function(d) { return yScale(d.Close); });
+
+          var maylabel = svg.selectAll("text.may")
+                              .data(data)
+                              .enter()
+                              .append("text")
+                              .filter(function(d) { return d.Close == 1.5 ;
+                              })
+                              .attr("class", "may")
+                              .text("IPO")
+                              .style("font-size", "8px");
+                maylabel.attr("x", function(d) { return xScale(d.Date) +2 ; })
+                                .attr("y", function(d) { return yScale(d.Close) - 10; });
+
+//August 2017
+svg.selectAll("dot.three")
+     .data(data)
+   .enter().append("circle")
+     .filter(function(d) { return d.Close == 980.599976 ;
+     })
+     .style("fill", "dimgrey")
+     .attr("class", "three")                       // <== and this one
+     .attr("r", 3)
+     .attr("cx", function(d) { return xScale(d.Date)  ; })
+     .attr("cy", function(d) { return yScale(d.Close); });
+
+     var auglabel = svg.selectAll("text.aug")
+                         .data(data)
+                         .enter()
+                         .append("text")
+                         .filter(function(d) { return d.Close == 980.599976  ;
+                         })
+                         .attr("class", "aug")
+                         .text("Whole Foods Acquisition")
+                         .style("font-size", "8px");
+           auglabel.attr("x", function(d) { return xScale(d.Date) + 5 ; })
+                           .attr("y", function(d) { return yScale(d.Close) - 7; });
+
+//September 2018
+
+svg.selectAll("dot.three")
+     .data(data)
+   .enter().append("circle")
+     .filter(function(d) { return d.Close == 2003.000000;
+     })
+     .style("fill", "dimgrey")
+     .attr("class", "three")                       // <== and this one
+     .attr("r", 3)
+     .attr("cx", function(d) { return xScale(d.Date)  ; })
+     .attr("cy", function(d) { return yScale(d.Close); });
+
+
+  var seplabel = svg.selectAll("text.sep")
+                      .data(data)
+                      .enter()
+                      .append("text")
+                      .filter(function(d) { return d.Close == 2003.000000  ;
+                      })
+                      .attr("class", "sep")
+                      .text("Amazon reaches trillion-dollar value")
+                      .style("font-size", "8px");
+        seplabel.attr("x", function(d) { return xScale(d.Date) + 3 ; })
+                        .attr("y", function(d) { return yScale(d.Close) - 7; });
+  });
+    </script>
+  </body>
+</html>
