@@ -37,8 +37,20 @@ nav {
   border: 1px solid #999;
 }
 
+.midline {
+  stroke: dimgrey;
+  stroke-width: .5px;
+    }
+
 .line {
   fill: none;
   stroke: #FD8609;
   stroke-width: 2px;
     }
+
+    .arealine {
+      fill: #346DF1;
+      opacity: .8;
+      stroke: #346DF1;
+      stroke-width: 2px;
+        }
