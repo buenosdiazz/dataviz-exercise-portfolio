@@ -25,7 +25,7 @@
 
         <h2><img src="https://cdn.vox-cdn.com/thumbor/Ei4ydi9WDwJW-dpSW_QWMiVULNs=/0x0:2012x1341/1820x1213/filters:focal(0x0:2012x1341):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/47070706/google2.0.0.jpg" width="150"> <br> Stock Price History </h2>
 
-        <p>This data set provides monthly stock information for Google, LLC (GOOG) from August 2012 to March 2019. P</p>
+        <p>This data set provides monthly stock information for Google, LLC (GOOG) from August 2012 to March 2019. </p>
 
         <!-- ADD YOUR VISUALIZATION HERE -->
 
@@ -112,8 +112,6 @@
   // - New York Times exposé: October 2018
 
 var dater1 = new Date('August 1, 2004 00:00:00');
-
-
 var date2=  new Date('October 1, 2006 00:00:00');
 var date3 = new Date('September 1, 2008 00:00:00');
 var date4= new Date('October 1, 2018 00:00:00');
@@ -142,6 +140,67 @@ svg.selectAll("dot")
      .attr("r", 3)
      .attr("cx", function(d) { return xScale(d.Date)  ; })
      .attr("cy", function(d) { return yScale(d.Close); });
+
+
+     var auglabel = svg.selectAll("text.aug")
+                         .data(data)
+                         .enter()
+                         .append("text")
+                         .filter(function(d) {
+                           if (d.Date >= +dater1 && d.Date <= +dater1) {
+                             return d;
+                           }
+                         })
+                         .attr("class", "aug")
+                         .text("Google IPO")
+                         .style("font-size", "8px");
+           auglabel.attr("x", function(d) { return xScale(d.Date) + 3 ; })
+                           .attr("y", function(d) { return yScale(d.Close) - 7; });
+
+var octlabel = svg.selectAll("text.oct")
+                         .data(data)
+                         .enter()
+                         .append("text")
+                         .filter(function(d) {
+                           if (d.Date >= +date2 && d.Date <= +date2) {
+                             return d;
+                           }
+                         })
+                         .attr("class", "oct")
+                         .text("Acquired YouTube")
+                         .style("font-size", "8px");
+           octlabel.attr("x", function(d) { return xScale(d.Date) + 3 ; })
+                           .attr("y", function(d) { return yScale(d.Close) - 7; });
+
+var seplabel = svg.selectAll("text.sep")
+                         .data(data)
+                         .enter()
+                         .append("text")
+                         .filter(function(d) {
+                           if (d.Date >= +date3 && d.Date <= +date3) {
+                             return d;
+                           }
+                         })
+                         .attr("class", "sep")
+                         .text("Android")
+                         .style("font-size", "8px");
+           seplabel.attr("x", function(d) { return xScale(d.Date) + 3 ; })
+                           .attr("y", function(d) { return yScale(d.Close) - 7; });
+
+var oct2label = svg.selectAll("text.oct2")
+                         .data(data)
+                         .enter()
+                         .append("text")
+                         .filter(function(d) {
+                           if (d.Date >= +date4 && d.Date <= +date4) {
+                             return d;
+                           }
+                         })
+                         .attr("class", "oct2")
+                         .text("New York Times exposé")
+                         .style("font-size", "8px");
+           oct2label.attr("x", function(d) { return xScale(d.Date) + 3 ; })
+                           .attr("y", function(d) { return yScale(d.Close) - 7; });
 
 //max value
 svg.append("line")
