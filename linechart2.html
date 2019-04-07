@@ -120,14 +120,16 @@
           .style("visibility", "hidden");
 
 
-      // append line
+      // append path line
       svg.append("path")
         .datum(data)
         .attr("class", "line2")
         .attr("d", line)
+  //interactivity
         .on("mouseover", function(d){
 
 //console.log(d[0].Date);
+//not sure how to get individual instances
           return tooltip.style("visibility", "visible") .text(data, function(d) {
              return d.Close;
            });
@@ -153,11 +155,17 @@
           return d.Close;
         })))
         .attr("y2", yScale(d3.max(data, function(d) {
-          return d.Close;
-        })));
+          return d.Close;  })));
 
 
-  ;
+//max close label
+var dateone = new Date('January 1, 1962 00:00:00');
+
+          svg.append("text")
+          .attr("x", xScale(+dateone))
+          .attr("y", 55)
+          .text("Maximum Close Price")
+          .style("font-size", "8px");
 
 
 //

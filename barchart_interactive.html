@@ -33,12 +33,14 @@
     </div>
 
   <script src="https://d3js.org/d3.v5.min.js"></script>
+
     <script>
 
 var w = 700;
 var h = 200;
 
-  d3.json("data/spring-training.csv").then(function(data) {
+
+d3.csv("data/spring-training.csv").then(function(data) {
     var data = data.data;
     //console.log(data);
 
