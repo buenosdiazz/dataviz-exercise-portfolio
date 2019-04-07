@@ -48,6 +48,12 @@ nav {
   stroke-width: 2px;
     }
 
+.line2{
+  fill: none;
+  stroke: #031F7A;
+  stroke-width: 2px;
+}
+
     .arealine {
       fill: #346DF1;
       opacity: .5;
