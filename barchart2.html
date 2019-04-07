@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Exercise Portfolio</title>
+  <link href="css/style.css" rel="stylesheet" />
+  <script src="js/lodash.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <!-- ADD YOUR NAME -->
+    <h1>Carolina Diaz: Exercise Portfolio</h1>
+  </header>
+
+  <div id="content">
+
+    <nav>
+      <ul>
+        <li><a href="index.html">Return to Main Page</a></li>
+      </ul>
+    </nav>
+
+    <main>
+
+      <h2>MLB Spring Training Win Percentages</h2>
+
+      <p>Demonstrates the win percentages per team divided by leagues</p>
+
+      <div id="buttons">
+
+        <input type="radio" name="league" value="Cactus" id="C" checked="checked"> Cactus League<br>
+        <input type="radio" name="league" value="Grapefruit" id="G"> Grapefruit League
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script>
+    var w = 600;
+    var h = 200;
+
+    d3.csv("data/spring-training.csv").then(function(data) {
+      //console.log(data);
+
+      var sorteddata = _.sortBy(data, 'pct');
+      console.log(sorteddata);
+
+      var leagues = _.groupBy(sorteddata, 'league');
+      console.log(leagues);
+      data.forEach(function(d) {
+        d.pct = (+d.pct * 100).toFixed(1);
+      })
+
+
+      var svg = d3.select("main").append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+
+      var rectangles = svg.selectAll("rect")
+        .data(leagues.C)
+        .enter()
+        .append("rect")
+        .attr("x", function(d, i) {
+          return (i * 35);
+        })
+        .attr("y", function(d) {
+          return h - (d.pct * 2);
+        })
+        .attr("width", 30)
+        .attr("height", function(d) {
+          return (d.pct * 2);
+        })
+
+      rectangles.attr("fill", "green")
+        .style("opacity", .5)
+
+      var teamlabels = svg.selectAll("text.team")
+        .data(leagues.C)
+        .enter()
+        .append("text")
+        .attr("class", "team")
+        .text(function(d) {
+          return d.abbr
+        })
+        .style("font-size", "9px");
+
+      teamlabels.attr("x", function(d, i) {
+          return (i * 35);
+        })
+        .attr("y", function(d) {
+          return h - (d.pct * 2) - 5;
+        })
+
+
+      var pctlabels = svg.selectAll("text.pct")
+        .data(leagues.C)
+        .enter()
+        .append("text")
+        .attr("class", "pct")
+        .text(function(d) {
+          return d.pct + "%"
+        })
+        .style("font-size", "9px");
+
+      pctlabels.attr("x", function(d, i) {
+          return (i * 35);
+        })
+        .attr("y", function(d) {
+          return h - (d.pct * 2) + 10;
+        })
+
+      d3.select("#G")
+        .on("click", function() {
+          console.log("You clicked the G")
+
+          rectangles.data(leagues.G)
+            .transition()
+            .delay(function(d, i) {
+              return i * 100;
+            })
+            .duration(1000)
+            .ease(d3.easeElasticOut)
+            .attr("y", function(d) {
+              return h - (d.pct * 2);
+            })
+            .attr("height", function(d) {
+              return (d.pct * 2);
+            })
+
+          rectangles.attr("fill", "#EC3131")
+            .style("opacity", .5)
+
+          teamlabels.data(leagues.G)
+            .transition()
+            .delay(function(d, i) {
+              return i * 100;
+            })
+            .duration(1000)
+            .ease(d3.easeElasticOut)
+            .text(function(d) {
+              return d.abbr;
+            })
+            .attr("y", function(d) {
+              return h - (d.pct * 2) - 5;
+            })
+            .attr("height", function(d) {
+              return (d.pct * 2);
+            })
+
+        pctlabels.data(leagues.G)
+            .transition()
+            .delay(function(d, i) {
+              return i * 100;
+            })
+            .duration(1000)
+            .ease(d3.easeElasticOut)
+            .text(function(d) {
+              return d.pct + "%"
+            })
+            .attr("y", function(d) {
+              return h - (d.pct * 2) + 10;
+            })
+
+
+
+        });
+
+
+
+      d3.select("#C")
+        .on("click", function() {
+          rectangles.data(leagues.C)
+            .transition()
+            .delay(function(d, i) {
+              return i * 100;
+            })
+            .duration(1000)
+            .ease(d3.easeElasticOut)
+            .attr("y", function(d) {
+              return h - (d.pct * 2);
+            })
+            .attr("height", function(d) {
+              return (d.pct * 2);
+            })
+          rectangles.attr("fill", "green")
+            .style("opacity", .5)
+
+
+      teamlabels.data(leagues.C)
+            .transition()
+            .delay(function(d, i) {
+              return i * 100;
+            })
+            .duration(1000)
+            .ease(d3.easeElasticOut)
+            .text(function(d) {
+              return d.abbr;
+            })
+            .attr("y", function(d) {
+              return h - (d.pct * 2) - 5;
+            })
+            .attr("height", function(d) {
+              return (d.pct * 2);
+            })
+
+        pctlabels.data(leagues.C)
+            .transition()
+            .delay(function(d, i) {
+              return i * 100;
+            })
+            .duration(1000)
+            .ease(d3.easeElasticOut)
+            .text(function(d) {
+              return d.pct + "%"
+            })
+            .attr("y", function(d) {
+              return h - (d.pct * 2) + 10;
+            })
+
+        });
+
+
+
+
+
+
+    });
+  </script>
+
+</body>
+
+</html>

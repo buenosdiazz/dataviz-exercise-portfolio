@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercise Portfolio</title>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+
+    <header>
+      <!-- ADD YOUR NAME -->
+      <h1>Carolina Diaz: Exercise Portfolio</h1>
+    </header>
+
+    <div id="content">
+
+      <nav>
+        <ul>
+          <li><a href="index.html">Return to Main Page</a></li>
+        </ul>
+      </nav>
+
+      <main>
+
+        <h2>2017-18 league-wide standings in the National Hockey League</h2>
+
+        <p>Represents number of wins per team</p>
+
+
+
+      </main>
+    </div>
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+
+var w = 700;
+var h = 200;
+
+  d3.json("data/spring-training.csv").then(function(data) {
+    var data = data.data;
+    //console.log(data);
+
+
+
+
+  var svg = d3.select("main").append("svg")
+              .attr("width", w)
+              .attr("height", h);
+
+              var tooltip = d3.select("main")
+            	.append("div")
+              .style("background", "white")
+              .style("padding", "5px")
+            	.style("position", "absolute")
+            	.style("font-size", "11px")
+            	.style("visibility", "hidden");
+
+              var winslabels = svg.selectAll("text.wins")
+                              .data(data)
+                              .enter()
+                              .append("text")
+                              .attr("class", "wins")
+                              .text(function(d) {return d.wins })
+                              .style("font-size", "8px");
+
+  var rectangles = svg.selectAll("rect")
+                      .data(data)
+                      .enter()
+                      .append("rect")
+                      .attr("x", function(d, i) { return (i * 22);
+                      })
+                      .attr("y", function(d) {
+             return h - d.wins;
+           })
+                      .attr("width", 16)
+                      .attr("height", function(d) {return d.wins;})
+
+                      rectangles.attr("fill","steelblue")
+                           .style("opacity", .5)
+                           .on("mouseover", function(d){
+
+                           return tooltip.style("visibility", "visible").text(d.teamFullName + ": " +d.wins +
+                         " wins" );
+ })
+ .on("mousemove", function(d){
+   return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d.teamFullName + ": " +d.wins +
+ " wins" );
+ })
+ .on("mouseout", function(d){
+   return tooltip.style("visibility", "hidden");
+ });
+
+
+
+
+
+  var namelabels = svg.selectAll("text.name")
+                      .data(data)
+                      .enter()
+                      .append("text")
+                      .attr("class", "name")
+                      .text(function(d) { return d.teamAbbrev })
+                      .style("font-size", "8px");
+        namelabels.attr("x", function(d, i) {
+                          return (i * 22) ;
+                            })
+                        .attr("y", function(d) {
+                        return (h - d.wins) - 5 ;
+                          });
+
+  });
+
+</script>
+
+  </body>
+</html>
