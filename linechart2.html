@@ -128,12 +128,12 @@
         .on("mouseover", function(d){
 
 //console.log(d[0].Date);
-          return tooltip.style("visibility", "visible") .text(d, function(d) {
+          return tooltip.style("visibility", "visible") .text(data, function(d) {
              return d.Close;
            });
         })
        .on("mousemove", function(d){
-       return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px") .text(d, function(d) {
+       return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px") .text(data, function(d) {
           return d.Close;
         });
      })
