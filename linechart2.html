@@ -135,7 +135,7 @@
            });
         })
        .on("mousemove", function(d){
-       return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px") .text(data, function(d) {
+       return tooltip.style("top", (d3.event.pageY-20)+"px").style("left",(d3.event.pageX+20)+"px") .text(data, function(d) {
           return d.Close;
         });
      })
@@ -164,7 +164,7 @@ var dateone = new Date('January 1, 1962 00:00:00');
           svg.append("text")
           .attr("x", xScale(+dateone))
           .attr("y", 55)
-          .text("Maximum Close Price")
+          .text("Highest Closing Price")
           .style("font-size", "8px");
 
 
