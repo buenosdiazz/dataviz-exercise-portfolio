@@ -40,6 +40,7 @@
   <script>
     d3.csv("data/DIS.csv").then(function(data) {
       console.log(data);
+    var data2 = data
       //variables for height, width, and padding
 
 
@@ -124,20 +125,30 @@
       svg.append("path")
         .datum(data)
         .attr("class", "line2")
-        .attr("d", line)
-  //interactivity
-        .on("mouseover", function(d){
+        .attr("d", line);
 
-//console.log(d[0].Date);
+  //interactivity
+
+
+  svg.selectAll("dot.two")
+       .data(data)
+     .enter().append("circle")
+       .style("opacity", 0 )
+       .attr("class", "two")                       // <== and this one
+       .attr("r", 3)
+       .attr("cx", function(d) { return xScale(d.Date)  ; })
+       .attr("cy", function(d) { return yScale(d.Close); })
+        .on("mouseover", function(d){
+          console.log(d.Close)
 //not sure how to get individual instances
-          return tooltip.style("visibility", "visible") .text(data, function(d) {
-             return d.Close;
-           });
+          return tooltip.style("visibility", "visible").html(
+             '<p>'+ "Closing Price: "+ d.Close+ '</p>'
+           );
         })
        .on("mousemove", function(d){
-       return tooltip.style("top", (d3.event.pageY-20)+"px").style("left",(d3.event.pageX+20)+"px") .text(data, function(d) {
-          return d.Close;
-        });
+       return tooltip.style("top", (d3.event.pageY-20)+"px").style("left",(d3.event.pageX+20)+"px") .html(
+           '<p>'+ "Closing Price: "+ d.Close+ '</p>'
+        );
      })
        .on("mouseout", function(d){
        return tooltip.style("visibility", "hidden");
