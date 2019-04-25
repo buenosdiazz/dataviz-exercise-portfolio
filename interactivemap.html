@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Exercise Portfolio</title>
+  <link href="css/style.css" rel="stylesheet" />
+  <script src="js/lodash.js"></script>
+  <style>
+    path {
+      fill: #A3C9D2;
+      stroke: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <!-- ADD YOUR NAME -->
+    <h1>Carolina Diaz: Exercise Portfolio</h1>
+  </header>
+
+  <div id="content">
+
+    <nav>
+      <ul>
+        <li><a href="index.html">Return to Main Page</a></li>
+      </ul>
+    </nav>
+
+    <main>
+
+      <h2>Interactive Map</h2>
+
+      <p>Plots the locations of the Seven Ancient and Modern Wonders of the world.</p>
+
+    </main>
+  </div>
+
+  <script src="js/d3.min.js"></script>
+  <script>
+
+    //console.log(data);
+    //console.log(data2);
+
+    var w = 800;
+    var h = 400;
+    var p = 60;
+
+    //create svg
+    var svg = d3.select("main")
+      .append("svg")
+      .attr("width", w + p)
+      .attr("height", h + p);
+
+
+    var path = d3.geoPath()
+      .projection(d3.geoMercator().scale(110).translate([w / 2, h / 1.2]));;
+
+    d3.json("data/geojson/world.json").then(function(world) {
+      // code to create map
+      svg.selectAll("path")
+        .data(world.features)
+        .enter()
+        .append("path")
+        .attr("d", path);
+
+
+      d3.csv("data/seven-ancient-wonders.csv").then(function(data) {
+
+        d3.csv("data/seven-modern-wonders.csv").then(function(data2) {
+
+          var together = _.union(data, data2);
+          console.log(together);
+
+          var tooltip = d3.select("main")
+            .append("div")
+            .style("background", "white")
+            .style("padding", "5px")
+            .style("position", "absolute")
+            .style("font-size", "11px")
+            .style("visibility", "hidden");
+
+
+var projection = d3.geoMercator().scale(110).translate([w / 2, h / 1.2]);
+
+          var plots = svg.selectAll("circle")
+      .data(together)
+      .enter()
+      .append("circle")
+      .attr("r", 4)
+      .attr("cx",function(d){
+        return projection([+d.longitude,+d.latitude])[0];
+      })
+      .attr("cy",function(d){
+        return projection([+d.longitude,+d.latitude])[1];
+      })
+      .style('fill', 'rgb(0,116,217)')
+              .attr('stroke','rgba(0,116,217,1)')
+              .attr('stroke-width', 0.2)
+              .attr('opacity', 0.6)
+      .on("mouseover",function(d){
+      //  d3.select(this).attr('opacity', 1)
+      //console.log(d.wonder);
+      return tooltip.style("visibility", "visible").html('<p>' + d.wonder + '<br>'+ "Constructed: " + d.constructed + '</p>');
+    })
+    .on("mousemove", function(d){
+    return tooltip.style("top", (d3.event.pageY-20)+"px").style("left",(d3.event.pageX+20)+"px").html('<p>' + d.wonder + '<br>'+ "Constructed: " + d.constructed + '</p>');
+  })
+    .on("mouseout", function(d){
+    return tooltip.style("visibility", "hidden");
+    });
+
+      })
+    })
+});
+  </script>
+
+</body>
+
+</html>
