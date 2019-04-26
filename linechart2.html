@@ -114,8 +114,8 @@
 // tooltip setup
         var tooltip = d3.select("main")
           .append("div")
-          .style("background", "white")
-          .style("padding", "5px")
+          .style("background", "gainsboro")
+          .style("padding", "3px")
           .style("position", "absolute")
           .style("font-size", "11px")
           .style("visibility", "hidden");
@@ -142,12 +142,12 @@
           console.log(d.Close)
 //not sure how to get individual instances
           return tooltip.style("visibility", "visible").html(
-             '<p>'+ "Closing Price: "+ d.Close+ '</p>'
+             '<p>'+ "Closing Price: $"+ d.Close.toFixed(1)+ '</p>'
            );
         })
        .on("mousemove", function(d){
        return tooltip.style("top", (d3.event.pageY-20)+"px").style("left",(d3.event.pageX+20)+"px") .html(
-           '<p>'+ "Closing Price: "+ d.Close+ '</p>'
+           '<p>'+ "Closing Price: $"+ d.Close.toFixed(2)+ '</p>'
         );
      })
        .on("mouseout", function(d){

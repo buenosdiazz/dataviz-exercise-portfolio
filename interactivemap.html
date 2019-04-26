@@ -40,7 +40,6 @@
 
   <script src="js/d3.min.js"></script>
   <script>
-
     //console.log(data);
     //console.log(data2);
 
@@ -77,44 +76,44 @@
           var tooltip = d3.select("main")
             .append("div")
             .style("background", "white")
-            .style("padding", "5px")
+            .style("padding", "3px")
             .style("position", "absolute")
             .style("font-size", "11px")
             .style("visibility", "hidden");
 
 
-var projection = d3.geoMercator().scale(110).translate([w / 2, h / 1.2]);
+          var projection = d3.geoMercator().scale(110).translate([w / 2, h / 1.2]);
 
           var plots = svg.selectAll("circle")
-      .data(together)
-      .enter()
-      .append("circle")
-      .attr("r", 4)
-      .attr("cx",function(d){
-        return projection([+d.longitude,+d.latitude])[0];
-      })
-      .attr("cy",function(d){
-        return projection([+d.longitude,+d.latitude])[1];
-      })
-      .style('fill', 'rgb(0,116,217)')
-              .attr('stroke','rgba(0,116,217,1)')
-              .attr('stroke-width', 0.2)
-              .attr('opacity', 0.6)
-      .on("mouseover",function(d){
-      //  d3.select(this).attr('opacity', 1)
-      //console.log(d.wonder);
-      return tooltip.style("visibility", "visible").html('<p>' + d.wonder + '<br>'+ "Constructed: " + d.constructed + '</p>');
-    })
-    .on("mousemove", function(d){
-    return tooltip.style("top", (d3.event.pageY-20)+"px").style("left",(d3.event.pageX+20)+"px").html('<p>' + d.wonder + '<br>'+ "Constructed: " + d.constructed + '</p>');
-  })
-    .on("mouseout", function(d){
-    return tooltip.style("visibility", "hidden");
-    });
+            .data(together)
+            .enter()
+            .append("circle")
+            .attr("r", 4)
+            .attr("cx", function(d) {
+              return projection([+d.longitude, +d.latitude])[0];
+            })
+            .attr("cy", function(d) {
+              return projection([+d.longitude, +d.latitude])[1];
+            })
+            .style('fill', 'rgb(0,116,217)')
+            .attr('stroke', 'rgba(0,116,217,1)')
+            .attr('stroke-width', 0.2)
+            .attr('opacity', 0.6)
+            .on("mouseover", function(d) {
+              //  d3.select(this).attr('opacity', 1)
+              //console.log(d.wonder);
+              return tooltip.style("visibility", "visible").html('<p>' + d.wonder + '<br>' + "Constructed: " + d.constructed + '</p>');
+            })
+            .on("mousemove", function(d) {
+              return tooltip.style("top", (d3.event.pageY - 20) + "px").style("left", (d3.event.pageX + 20) + "px").html('<p>' + d.wonder + '<br>' + "Constructed: " + d.constructed + '</p>');
+            })
+            .on("mouseout", function(d) {
+              return tooltip.style("visibility", "hidden");
+            });
 
+        })
       })
-    })
-});
+    });
   </script>
 
 </body>
